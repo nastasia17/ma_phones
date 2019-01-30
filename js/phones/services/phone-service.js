@@ -224,14 +224,6 @@ const phoneDetails = {
     }
 };
 
-// export function getAll() {
-//     return phonesFromServer;
-// }
-//
-// export function getById(){
-//     return phoneDetails;
-// }
-
 const PhoneService = {
     getAll() {
         return phonesFromServer;
