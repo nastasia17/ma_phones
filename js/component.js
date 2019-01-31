@@ -1,5 +1,5 @@
 export default class Component {
-    constructor({element}) {
+  constructor({element}) {
         this._element = element;
       this._callbackMap = {};
     }
@@ -21,18 +21,27 @@ export default class Component {
       }
 
       callback(event);
-    })
+    });
   }
 
   subscribe(eventName, callback) {
-    this._callbackMap[eventName] = callback;
+    if (!this._callbackMap[eventName]) {
+      this._callbackMap[eventName] = [];
+    }
+
+    this._callbackMap[eventName].push(callback);
   }
 
   emit(eventName, data) {
-    const callback = this._callbackMap[eventName];
-    if (!callback) {
+    const eventCallbacks = this._callbackMap[eventName];
+
+    if (!eventCallbacks) {
       return;
     }
-    callback(data);
+
+    eventCallbacks.forEach(callback => {
+      callback(data);
+    });
+
   }
 }

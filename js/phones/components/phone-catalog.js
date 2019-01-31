@@ -4,7 +4,6 @@ export default class PhoneCatalog extends Component {
   constructor({
                 element,
                 phones = [],
-                // onPhoneSelected = () => {}
               }) {
     super({element});
 
@@ -16,8 +15,13 @@ export default class PhoneCatalog extends Component {
 
       this.emit('phone-selected', phoneElement.dataset.phoneId);
     });
-  }
 
+    this.on('click', 'add-button', (event) => {
+      let phoneElement = event.target.closest('[data-element="phone"]');
+
+      this.emit('phone-added', phoneElement.dataset.phoneId);
+    });
+  }
 
   _render() {
     this._element.innerHTML = `
@@ -41,9 +45,11 @@ export default class PhoneCatalog extends Component {
                     </a>
 
                     <div class="phones__btn-buy-wrapper">
-                        <a class="btn btn-success">
+                        <button 
+                        data-element="add-button"
+                        class="btn btn-success">
                             Add
-                        </a>
+                        </button>
                     </div>
 
                     <a 
@@ -51,7 +57,7 @@ export default class PhoneCatalog extends Component {
                     href="#!/phones/motorola-xoom-with-wi-fi" 
                     >
                        ${phone.name}
-                    </a>
+                    </a> 
                     <p>${phone.snippet}</p>
                 </li>
         `).join('')}
